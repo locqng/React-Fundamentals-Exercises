@@ -1,4 +1,5 @@
 import "./App.css";
+import FavoriteMovies from "./FavoriteMovies";
 import logo from "./logo.svg";
 
 // Display a list of movies where each movie contains a list of users that favorited it.
@@ -94,13 +95,24 @@ const movies = {
 };
 
 const App = () => {
+  let favMoviesByUsers = {};
+  profiles.forEach(x => {
+    if (x.favoriteMovieID in favMoviesByUsers) {
+      favMoviesByUsers[x.favoriteMovieID].push(x.userID);
+    }
+    else {
+      favMoviesByUsers[x.favoriteMovieID] = [x.userID];
+    }
+  });
+  console.log(Object.keys(movies));
   return (
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <h1 className="App-title">ReactND - Coding Practice</h1>
       </header>
-      <h2>How Popular is Your Favorite Movie?</h2>
+      <h2>How Popular is Your Favorite Movie</h2>
+      <FavoriteMovies moviesByUsers={favMoviesByUsers} moviesList={movies} usersList={users}/>
     </div>
   );
 };
